@@ -1,9 +1,3 @@
-$('.js-submit-input-text').value(getValue());
-
-$('.js-submit-input-text').on('keyup', function () {
-  saveValue(this.value);
-});
-
 CustomElement.init((element, _context) => {
   // Set up the Custom element using JSON parameters
   console.log('element', element);
@@ -33,3 +27,9 @@ function getValue() {
 function resizeIframe(height) {
   CustomElement.setHeight(height);
 }
+
+$('.js-submit-input-text').value(getValue());
+
+$('.js-submit-input-text').on('keyup', function () {
+  saveValue(this.value);
+});
