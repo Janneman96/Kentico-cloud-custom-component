@@ -6,6 +6,8 @@ $('.js-submit-input-text').on('keyup', function () {
 
 CustomElement.init((element, _context) => {
   // Set up the Custom element using JSON parameters
+  console.log('element', element);
+  console.log('context', _context);
 });
 
 /**
