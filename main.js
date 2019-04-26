@@ -1,4 +1,4 @@
-console.log('main.js');
+$('.js-submit-input-text').value(getValue());
 
 $('.js-submit-input-text').on('keyup', function () {
   saveValue(this.value);
@@ -10,16 +10,23 @@ CustomElement.init((element, _context) => {
 
 /**
  * Saves the value to the Kentico Cloud UI.
- * @param {string} value New value
+ * @param {string} value The new value.
  */
 function saveValue(value) {
-  console.log('setting value to', value);
   CustomElement.setValue(value);
 }
 
 /**
+ * Returns the value from the Kentico Cloud UI.
+ * @returns {string} The value.
+ */
+function getValue() {
+  return CustomElement.getValue();
+}
+
+/**
  * Resizes the custom element iframe.
- * @param {number} height Height in pixels
+ * @param {number} height The height in pixels.
  */
 function resizeIframe(height) {
   CustomElement.setHeight(height);
