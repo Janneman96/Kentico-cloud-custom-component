@@ -54,6 +54,7 @@ var area = document.querySelector('.js-mouse-leave-drop');
 function getImages() {
   if ((!kenticoData) || (!kenticoData.images.length)) {
     console.log('No Kentico data found.');
+    console.log(kenticoData);
     return area.querySelectorAll('.js-movable-image');
   }
 
