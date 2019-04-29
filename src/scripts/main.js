@@ -97,6 +97,7 @@ function bindEvents(imageElement) {
   var left = parseInt(imageElement.getAttribute('data-position-left')) || area.offsetWidth / 2;
   inputX.value = left;
   imageElement.style.left = left;
+  console.log('left', left);
 
   inputContainer.appendChild(inputX);
   inputX.addEventListener('change', function () {
@@ -112,6 +113,7 @@ function bindEvents(imageElement) {
   var top = parseInt(imageElement.getAttribute('data-position-top')) || area.offsetHeight / 2;
   inputY.value = top;
   imageElement.style.top = top;
+  console.log('top', top);
 
   if (!inputY.value) {
     inputY.value = area.offsetHeight / 2;
