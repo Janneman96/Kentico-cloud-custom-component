@@ -64,6 +64,8 @@ function getImages() {
     imageElement.src = 'assets/grocery.svg';
     imageElement.style.left = image.x;
     imageElement.style.top = image.y;
+    imageElement.setAttribute('data-position-left', image.x);
+    imageElement.setAttribute('data-position-top', image.y);
     imageElements.push(imageElement);
   }
   return imageElements;
@@ -84,8 +86,8 @@ function getUniqueId() {
   return id;
 }
 
-function bindEvents(image) {
-  var id = image.getAttribute('data-id');
+function bindEvents(imageElement) {
+  var id = imageElement.getAttribute('data-id');
 
   var inputX = document.createElement('input');
   inputX.setAttribute('data-id', id);
@@ -93,14 +95,13 @@ function bindEvents(image) {
   inputX.classList.add('js-write-x');
   inputX.classList.add('js-read-x');
 
-  if (!$(image).position().left) {
-    inputX.value = area.offsetWidth / 2;
-    image.style.left = area.offsetWidth / 2;
-  }
+  var left = parseInt(imageElement.getAttribute('data-position-left')) || area.offsetWidth / 2;
+  inputX.value = left;
+  imageElement.style.left = left;
 
   inputContainer.appendChild(inputX);
   inputX.addEventListener('change', function () {
-    repositionImageX(inputX.value, image, inputX);
+    repositionImageX(inputX.value, imageElement, inputX);
   });
 
   var inputY = document.createElement('input');
@@ -109,13 +110,17 @@ function bindEvents(image) {
   inputY.classList.add('js-write-y');
   inputY.classList.add('js-read-y');
 
-  if (!$(image).position().top) {
+  var top = parseInt(imageElement.getAttribute('data-position-top')) || area.offsetHeight / 2;
+  inputY.value = top;
+  imageElement.style.top = top;
+
+  if (!inputY.value) {
     inputY.value = area.offsetHeight / 2;
-    image.style.top = area.offsetHeight / 2;
+    imageElement.style.top = area.offsetHeight / 2;
   }
   inputContainer.appendChild(inputY);
   inputY.addEventListener('change', function () {
-    repositionImageY(inputY.value, image, inputY);
+    repositionImageY(inputY.value, imageElement, inputY);
   });
 }
 
@@ -184,6 +189,8 @@ function translateInputsToJson() {
   }
 
   var allXInputs = document.querySelectorAll('.js-read-x');
+
+  var doAlert = false;
   for (var i = 0; i < allXInputs.length; i++) {
     var inputX = allXInputs[i];
     var id = inputX.getAttribute('data-id');
@@ -195,9 +202,10 @@ function translateInputsToJson() {
     if (position.x && position.y) {
       valueToSave.images.push(position);
     } else {
-      alert('One of the inputs was not filled properly.');
+      doAlert = true;
     }
   }
+  if (doAlert) alert('One of the inputs was not filled properly.');
   insertJsonInResult(valueToSave);
 }
 
