@@ -36,6 +36,7 @@ var inputContainer = document.querySelector('.js-inputs');
 var area = document.querySelector('.js-mouse-leave-drop');
 
 (function initImageArea() {
+  resizeIframe(600);
   var movableImages = document.querySelectorAll('.js-movable-image');
   for (var i = 0; i < movableImages.length; i++) {
     registerImage(movableImages[i]);
