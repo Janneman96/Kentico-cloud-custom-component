@@ -93,7 +93,7 @@ function bindEvents(image) {
   inputX.classList.add('js-write-x');
   inputX.classList.add('js-read-x');
 
-  if (!image.position().left) {
+  if (!$(image).position().left) {
     inputX.value = area.offsetWidth / 2;
     image.style.left = area.offsetWidth / 2;
   }
@@ -109,7 +109,7 @@ function bindEvents(image) {
   inputY.classList.add('js-write-y');
   inputY.classList.add('js-read-y');
 
-  if (!image.position().top) {
+  if (!$(image).position().top) {
     inputY.value = area.offsetHeight / 2;
     image.style.top = area.offsetHeight / 2;
   }
