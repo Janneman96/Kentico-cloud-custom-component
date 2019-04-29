@@ -43,6 +43,10 @@ var area = document.querySelector('.js-mouse-leave-drop');
 
 (function initImageArea() {
   kenticoResizeIframe(600);
+  $('.js-add-input').on('click', function () {
+    registerImage(area.appendChild(createImage()));
+    translateInputsToJson();
+  });
   var movableImages = getImages();
   for (var i = 0; i < movableImages.length; i++) {
     registerImage(movableImages[i]);
@@ -52,22 +56,37 @@ var area = document.querySelector('.js-mouse-leave-drop');
 
 function getImages() {
   if ((!kenticoData) || (!kenticoData.images.length)) {
-    return document.querySelectorAll('.js-movable-image');
+    return area.querySelectorAll('.js-movable-image');
   }
 
   var imageElements = [];
   for (var i = 0; i < kenticoData.images.length; i++) {
     var image = kenticoData.images[i];
-    var imageElement = document.createElement('img');
-    imageElement.className = 'js-movable-image';
-    imageElement.src = 'assets/grocery.svg';
-    imageElement.style.left = image.x;
-    imageElement.style.top = image.y;
-    imageElement.setAttribute('data-position-left', image.x);
-    imageElement.setAttribute('data-position-top', image.y);
+
+    var imageElement = createImage(image.x, image.y);
+
     imageElements.push(imageElement);
+    area.appendChild(imageElement);
   }
   return imageElements;
+}
+
+function createImage(x, y) {
+  if (!x || x !== 0) {
+    x = area.offsetWidth / 2;
+  }
+  if (!y || y !== 0) {
+    y = area.offsetHeight / 2;
+  }
+
+  var imageElement = document.createElement('img');
+  imageElement.className = 'js-movable-image';
+  imageElement.src = 'assets/grocery.svg';
+  imageElement.style.left = x + 'px';
+  imageElement.style.top = y + 'px';
+  imageElement.setAttribute('data-position-left', x);
+  imageElement.setAttribute('data-position-top', y);
+  return imageElement;
 }
 
 function registerImage(image) {
@@ -96,8 +115,7 @@ function bindEvents(imageElement) {
 
   var left = parseInt(imageElement.getAttribute('data-position-left')) || area.offsetWidth / 2;
   inputX.value = left;
-  imageElement.style.left = left;
-  console.log('left', left);
+  imageElement.style.left = left + 'px';
 
   inputContainer.appendChild(inputX);
   inputX.addEventListener('change', function () {
@@ -112,8 +130,7 @@ function bindEvents(imageElement) {
 
   var top = parseInt(imageElement.getAttribute('data-position-top')) || area.offsetHeight / 2;
   inputY.value = top;
-  imageElement.style.top = top;
-  console.log('top', top);
+  imageElement.style.top = top + 'px';
 
   if (!inputY.value) {
     inputY.value = area.offsetHeight / 2;
@@ -126,8 +143,8 @@ function bindEvents(imageElement) {
 }
 
 function addListeners(id) {
-  var image = area.querySelector('img[data-id="' + id + '"]');
-
+  var image = area.querySelector('img[data-id="' + id + '');
+  console.log(image);
   image.addEventListener('mousedown', function (e) {
     image.setAttribute('data-holding', true);
     repositionImageToCursor(e, id);
@@ -173,6 +190,8 @@ function repositionImageX(x, image, input) {
   if (x > area.offsetWidth) x = area.offsetWidth;
   if (image) image.style.left = x + 'px';
   if (input) input.value = x;
+
+  translateInputsToJson();
 }
 
 function repositionImageY(y, image, input) {
