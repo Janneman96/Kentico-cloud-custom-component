@@ -15,6 +15,7 @@
       background-color: #1976d2;
     }
   </style>
+  <link rel="stylesheet" href="styling/main.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
@@ -23,11 +24,18 @@
   
   <div style="width: 500px;">
     <div class="text-field">
-      <input class="form__text-field js-submit-input-text" type="text" autocomplete="off" value="">
+      <input class="form__text-field js-output" type="text" autocomplete="off" readonly="true">
     </div>
   </div>
+
+  <div class="js-inputs"></div>
+  <div class="images js-mouse-leave-drop js-images-container">
+    <img class='js-movable-image' src="assets/grocery.svg" />
+    <img class='js-movable-image' src="assets/grocery.svg" />
+    <img class='js-movable-image' src="assets/grocery.svg" />
+  </div>
   
-  <script src="main.js"></script>
+  <script src="scripts/main.min.js"></script>
 </body>
 
 </html>
