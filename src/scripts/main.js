@@ -44,31 +44,35 @@ var area = document.querySelector('.js-mouse-leave-drop');
 
 (function initImageArea() {
   kenticoResizeIframe(600);
-  setInitialValues();
-  var movableImages = document.querySelectorAll('.js-movable-image');
+  var movableImages = getImages();
   for (var i = 0; i < movableImages.length; i++) {
     registerImage(movableImages[i]);
   }
   translateInputsToJson();
 })();
 
-function setInitialValues() {
-  if (!kenticoData) return;
-  for (var i = 0; i < kenticoData.images.length; i++) {
-    var image = kenticoData.images[i];
+function getImages() {
+  if ((!kenticoData) || (!kenticoData.images.length)) {
+    return document.querySelectorAll('.js-movable-image');
+  }
+
+  var imageElements = [];
+  for (var i = 0; i < images.length; i++) {
+    var image = images[i];
     var imageElement = document.createElement('img');
     imageElement.className = 'js-movable-image';
     imageElement.src = 'assets/grocery.svg';
     imageElement.style.left = image.x;
     imageElement.style.top = image.y;
-    $('.js-images-container').appendChild(imageElement);
+    imageElements.push(imageElement);
   }
+  return imageElements;
 }
 
 function registerImage(image) {
   var id = getUniqueId(image);
   image.setAttribute('data-id', id);
-  bindEvents(id);
+  bindEvents(image);
   addListeners(id);
 }
 
@@ -80,15 +84,20 @@ function getUniqueId() {
   return id;
 }
 
-function bindEvents(id) {
-  var image = area.querySelector('img[data-id="' + id + '"]');
+function bindEvents(image) {
+  var id = image.getAttribute('data-id');
 
   var inputX = document.createElement('input');
   inputX.setAttribute('data-id', id);
   inputX.classList.add('js-submit-x');
   inputX.classList.add('js-write-x');
   inputX.classList.add('js-read-x');
-  inputX.value = area.offsetWidth / 2;
+
+  if (!image.position().left) {
+    inputX.value = area.offsetWidth / 2;
+    image.style.left = area.offsetWidth / 2;
+  }
+
   inputContainer.appendChild(inputX);
   inputX.addEventListener('change', function () {
     repositionImageX(inputX.value, image, inputX);
@@ -99,7 +108,11 @@ function bindEvents(id) {
   inputY.classList.add('js-submit-y');
   inputY.classList.add('js-write-y');
   inputY.classList.add('js-read-y');
-  inputY.value = area.offsetHeight / 2;
+
+  if (!image.position().top) {
+    inputY.value = area.offsetHeight / 2;
+    image.style.top = area.offsetHeight / 2;
+  }
   inputContainer.appendChild(inputY);
   inputY.addEventListener('change', function () {
     repositionImageY(inputY.value, image, inputY);
