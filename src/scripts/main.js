@@ -24,6 +24,7 @@ var kenticoResizeIframe = function (heightInPixels) { };
 
     kenticoSaveValue = function saveValue(value) {
       CustomElement.setValue(value);
+      console.log('set value to', value);
     }
 
     kenticoResizeIframe = function resizeIframe(height) {
@@ -53,6 +54,7 @@ var area = document.querySelector('.js-mouse-leave-drop');
 
 function setInitialValues() {
   if (!kenticoData) return;
+  console.log('data', kenticoData);
   for (var i = 0; i < kenticoData.images.length; i++) {
     var image = kenticoData.images[i];
     var imageElement = document.createElement('img');
@@ -61,6 +63,7 @@ function setInitialValues() {
     imageElement.style.left = image.x;
     imageElement.style.top = image.y;
     $('.js-images-container').appendChild(imageElement);
+    console.log('added image', imageElement);
   }
 }
 
