@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Kentico cloud custom element</title>
+  <link rel="stylesheet" type="text/css" href="https://kentico.github.io/custom-element-samples/shared/custom-element.css">
+  <style type="text/css">
+    body {
+      margin: 20px;
+    }
+
+    .inverted-bg {
+      padding: 10px;
+      background-color: #1976d2;
+    }
+  </style>
+  <link rel="stylesheet" href="styling/main.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <script src="https://app.kenticocloud.com/js-api/custom-element.js"></script>
+  
+  <div style="width: 500px;">
+    <div class="text-field">
+      <input class="form__text-field js-output" type="text" autocomplete="off" readonly="true">
+    </div>
+  </div>
+
+  <div class="js-inputs"></div>
+  <div class="images js-mouse-leave-drop js-images-container">
+    <img class='js-movable-image' src="assets/grocery.svg" />
+    <img class='js-movable-image' src="assets/grocery.svg" />
+    <img class='js-movable-image' src="assets/grocery.svg" />
+  </div>
+  
+  <script src="scripts/main.min.js"></script>
+</body>
+
+</html>
