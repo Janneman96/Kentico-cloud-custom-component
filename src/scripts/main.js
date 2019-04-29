@@ -17,14 +17,12 @@ var kenticoResizeIframe = function (heightInPixels) { };
     if (!CustomElement) return;
 
     CustomElement.init(function (element, _context) {
-      console.log('information from Kentico Cloud', element);
       kenticoData = JSON.parse(element.value);
       var configuration = element.config;
     });
 
     kenticoSaveValue = function saveValue(value) {
       CustomElement.setValue(value);
-      console.log('set value to', value);
     }
 
     kenticoResizeIframe = function resizeIframe(height) {
@@ -54,6 +52,7 @@ var area = document.querySelector('.js-mouse-leave-drop');
 
 function setInitialValues() {
   if (!kenticoData) return;
+  console.log('Data from Kentico', kenticoData);
   for (var i = 0; i < kenticoData.images.length; i++) {
     var image = kenticoData.images[i];
     var imageElement = document.createElement('img');
