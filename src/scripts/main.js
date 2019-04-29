@@ -47,15 +47,13 @@ var area = document.querySelector('.js-mouse-leave-drop');
     registerImage(area.appendChild(createImage()));
     translateInputsToJson();
   });
-  var movableImages = getImages();
-  for (var i = 0; i < movableImages.length; i++) {
-    registerImage(movableImages[i]);
-  }
+  getImages();
   translateInputsToJson();
 })();
 
 function getImages() {
   if ((!kenticoData) || (!kenticoData.images.length)) {
+    console.log('No Kentico data found.');
     return area.querySelectorAll('.js-movable-image');
   }
 
@@ -66,7 +64,7 @@ function getImages() {
     var imageElement = createImage(image.x, image.y);
 
     imageElements.push(imageElement);
-    area.appendChild(imageElement);
+    registerImage(area.appendChild(imageElement));
   }
   return imageElements;
 }
