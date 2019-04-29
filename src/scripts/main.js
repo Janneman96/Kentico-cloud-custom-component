@@ -19,7 +19,8 @@ var kenticoResizeIframe = function (heightInPixels) { };
     CustomElement.init(function (element, _context) {
       console.log('kentico element', element);
       kenticoData = JSON.parse(element.value);
-      var configuration = element.config;
+      console.log('kentico data', kenticoData);
+      var configuration = JSON.parse(element.config);
     });
 
     kenticoSaveValue = function saveValue(value) {
@@ -52,7 +53,6 @@ var area = document.querySelector('.js-mouse-leave-drop');
 })();
 
 function setInitialValues() {
-  console.log('Data from Kentico', kenticoData);
   if (!kenticoData) return;
   for (var i = 0; i < kenticoData.images.length; i++) {
     var image = kenticoData.images[i];
@@ -166,7 +166,7 @@ function repositionImageY(y, image, input) {
 }
 
 function translateInputsToJson() {
-  var json = {
+  var valueToSave = {
     images: []
   }
 
@@ -180,12 +180,12 @@ function translateInputsToJson() {
       y: inputY.value
     };
     if (position.x && position.y) {
-      json.images.push(position);
+      valueToSave.images.push(position);
     } else {
       alert('One of the inputs was not filled properly.');
     }
   }
-  insertJsonInResult(json);
+  insertJsonInResult(valueToSave);
 }
 
 function insertJsonInResult(object) {
