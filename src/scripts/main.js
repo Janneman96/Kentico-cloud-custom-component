@@ -1,48 +1,68 @@
-if (CustomElement) {
-  CustomElement.init(function (element, _context) {
-    // Set up the Custom element using JSON parameters
-    console.log('element', element);
-    var initialValue = element.value;
-    var configuration = element.config;
-  });
-}
+var kenticoData = null;
 
 /**
  * Saves the value to the Kentico Cloud UI.
  * @param {string} value The new value.
  */
-function saveValue(value) {
-  if (!CustomElement) {
-    return;
-  }
-  CustomElement.setValue(value);
-}
+var kenticoSaveValue = function (newStringValue) { };
 
 /**
  * Resizes the custom element iframe.
  * @param {number} height The height in pixels.
  */
-function resizeIframe(height) {
-  if (!CustomElement) {
-    return;
+var kenticoResizeIframe = function (heightInPixels) { };
+
+(function () {
+  try {
+    if (!CustomElement) return;
+
+    CustomElement.init(function (element, _context) {
+      console.log('element', element);
+      kenticoData = JSON.parse(element.value);
+      var configuration = element.config;
+    });
+
+    kenticoSaveValue = function saveValue(value) {
+      CustomElement.setValue(value);
+    }
+
+    kenticoResizeIframe = function resizeIframe(height) {
+      CustomElement.setHeight(height);
+    }
+  } catch (e) {
+    if (e.message == 'Custom element is not hosted in an IFrame') {
+      console.warn('This image editor is currently not hosted in the correct Kentico Cloud environment.');
+    } else {
+      console.warn('Something went wrong in the Kentico image editor element.\n\n', e);
+    }
   }
-  CustomElement.setHeight(height);
-}
-
-
-
+})();
 
 var inputContainer = document.querySelector('.js-inputs');
 var area = document.querySelector('.js-mouse-leave-drop');
 
 (function initImageArea() {
-  resizeIframe(600);
+  kenticoResizeIframe(600);
+  setInitialValues();
   var movableImages = document.querySelectorAll('.js-movable-image');
   for (var i = 0; i < movableImages.length; i++) {
     registerImage(movableImages[i]);
   }
   translateInputsToJson();
 })();
+
+function setInitialValues() {
+  if (!kenticoData) return;
+  for (var i = 0; i < kenticoData.images.length; i++) {
+    var image = kenticoData.images[i];
+    var imageElement = document.createElement('img');
+    imageElement.className = 'js-movable-image';
+    imageElement.src = 'assets/grocery.svg';
+    imageElement.style.left = image.x;
+    imageElement.style.top = image.y;
+    $('.js-images-container').appendChild(imageElement);
+  }
+}
 
 function registerImage(image) {
   var id = getUniqueId(image);
@@ -169,5 +189,5 @@ function translateInputsToJson() {
 
 function insertJsonInResult(object) {
   document.querySelector('.js-output').value = JSON.stringify(object);
-  saveValue(JSON.stringify(object));
+  kenticoSaveValue(JSON.stringify(object));
 }
