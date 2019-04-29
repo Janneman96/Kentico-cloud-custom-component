@@ -17,7 +17,7 @@ var kenticoResizeIframe = function (heightInPixels) { };
     if (!CustomElement) return;
 
     CustomElement.init(function (element, _context) {
-      console.log('element', element);
+      console.log('information from Kentico Cloud', element);
       kenticoData = JSON.parse(element.value);
       var configuration = element.config;
     });
@@ -54,7 +54,6 @@ var area = document.querySelector('.js-mouse-leave-drop');
 
 function setInitialValues() {
   if (!kenticoData) return;
-  console.log('data', kenticoData);
   for (var i = 0; i < kenticoData.images.length; i++) {
     var image = kenticoData.images[i];
     var imageElement = document.createElement('img');
@@ -63,7 +62,6 @@ function setInitialValues() {
     imageElement.style.left = image.x;
     imageElement.style.top = image.y;
     $('.js-images-container').appendChild(imageElement);
-    console.log('added image', imageElement);
   }
 }
 
@@ -191,7 +189,6 @@ function translateInputsToJson() {
 }
 
 function insertJsonInResult(object) {
-  console.log('saving...', object);
   document.querySelector('.js-output').value = JSON.stringify(object);
   kenticoSaveValue(JSON.stringify(object));
 }
