@@ -191,6 +191,7 @@ function translateInputsToJson() {
 }
 
 function insertJsonInResult(object) {
+  console.log('saving...', object);
   document.querySelector('.js-output').value = JSON.stringify(object);
   kenticoSaveValue(JSON.stringify(object));
 }
