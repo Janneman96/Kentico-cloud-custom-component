@@ -17,7 +17,6 @@ var kenticoResizeIframe = function (heightInPixels) { };
     if (!CustomElement) return;
 
     CustomElement.init(function (element, _context) {
-      console.log('kentico element', element);
       kenticoData = JSON.parse(element.value);
       console.log('kentico data', kenticoData);
       var configuration = JSON.parse(element.config);
@@ -57,8 +56,8 @@ function getImages() {
   }
 
   var imageElements = [];
-  for (var i = 0; i < images.length; i++) {
-    var image = images[i];
+  for (var i = 0; i < kenticoData.images.length; i++) {
+    var image = kenticoData.images[i];
     var imageElement = document.createElement('img');
     imageElement.className = 'js-movable-image';
     imageElement.src = 'assets/grocery.svg';
